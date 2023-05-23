@@ -6,18 +6,20 @@ function Header(course){
   )
 }
 
+function Part({part, exercise}){
+  return(
+    <div>
+      <p>{part} {exercise}</p>
+    </div>
+  )
+}
+
 function Content({partsList, exercisesList}){
   return(
     <div>
-      <p>
-        {partsList[0]} {exercisesList[0]}
-      </p>
-      <p>
-        {partsList[1]} {exercisesList[1]}
-      </p>
-      <p>
-        {partsList[2]} {exercisesList[2]}
-      </p>
+      <Part part={partsList[0]} exercise={exercisesList[0]} />
+      <Part part={partsList[1]} exercise={exercisesList[1]} />
+      <Part part={partsList[2]} exercise={exercisesList[2]} />
     </div>
   )
 }
