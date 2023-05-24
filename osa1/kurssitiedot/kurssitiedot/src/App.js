@@ -14,39 +14,44 @@ function Part({part, exercise}){
   )
 }
 
-function Content({partsList, exercisesList}){
+function Content({courseList}){
   return(
     <div>
-      <Part part={partsList[0]} exercise={exercisesList[0]} />
-      <Part part={partsList[1]} exercise={exercisesList[1]} />
-      <Part part={partsList[2]} exercise={exercisesList[2]} />
+      <Part part={courseList[0].name} exercise={courseList[0].exercises} />
+      <Part part={courseList[1].name} exercise={courseList[1].exercises} />
+      <Part part={courseList[2].name} exercise={courseList[2].exercises} />
     </div>
   )
 }
 
-function Total({exercisesList}){
+function Total({courseList}){
   return(
-    <p>Number of exercises {exercisesList[0] + exercisesList[1] + exercisesList[2]}</p>
+    <p>Number of exercises {courseList[0].exercises + courseList[1].exercises + courseList[2].exercises}</p>
   )
 }
 
 
 function App() {
   const course = 'Half Stack application development'
-  const part1 = 'Fundamentals of React'
-  const exercises1 = 10
-  const part2 = 'Using props to pass data'
-  const exercises2 = 7
-  const part3 = 'State of a component'
-  const exercises3 = 14
-  const partsList = [part1, part2, part3]
-  const exercisesList = [exercises1, exercises2, exercises3]
+  const part1 = {
+    name: 'Fundamentals of React',
+    exercises: 10
+  }
+  const part2 = {
+    name: 'Using props to pass data',
+    exercises: 7
+  }
+  const part3 = {
+    name: 'State of a component',
+    exercises: 14
+  }
+  const courseList = [part1, part2, part3]
 
   return (
     <div>
       <Header course={course} />
-      <Content partsList={partsList} exercisesList={exercisesList} />
-      <Total exercisesList={exercisesList} />
+      <Content courseList={courseList} />
+      <Total courseList={courseList} />
     </div>
   );
 }
