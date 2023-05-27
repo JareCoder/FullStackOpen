@@ -39,6 +39,7 @@ const Course = ({course}) => {
     //for (let part in partsList){
      // total += partsList[part].exercises
    // }
+   
     return(
       <p><b>Total numer of exercises: </b>{total}</p>
     )
