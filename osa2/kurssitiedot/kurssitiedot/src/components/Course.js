@@ -11,18 +11,19 @@ const Course = ({course}) => {
   const Part = ({name, exercise}) => {
     return(
       <div>
-        <p>{name} {exercise}</p>
+        <p>{name}: {exercise}</p>
       </div>
     )
   }
   
   const Content = ({courseList}) => {
     const partsList = courseList.parts
+    //Key == name, due to lazy implementation. Can be fixed by using a proper UUID lib
     return(
       <div>
         {partsList.map(
           (part, i) => 
-          <Part name={partsList[i].name} exercise={partsList[i].exercises}/>
+          <Part key={partsList[i].name} name={partsList[i].name} exercise={partsList[i].exercises}/>
         )}
       </div>
     )
@@ -30,13 +31,16 @@ const Course = ({course}) => {
   
   const Total = ({courseList}) =>{
     const partsList = courseList.parts
-    let sum = 0
 
-    for (let part in partsList){
-      sum += partsList[part].exercises
-    }
+    let total = partsList.reduce((total, currentVal) => {
+      return total + currentVal.exercises
+    }, 0)
+
+    //for (let part in partsList){
+     // total += partsList[part].exercises
+   // }
     return(
-      <p>Number of exercises {sum}</p>
+      <p><b>Total numer of exercises: </b>{total}</p>
     )
   }
 
