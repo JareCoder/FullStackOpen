@@ -3,12 +3,14 @@ import personsService from './services/persons'
 import Filter from './components/FilterNames'
 import PersonForm from './components/PersonForm'
 import PersonsList from './components/PersonsList'
+import personService from './services/persons'
 
 function App(){
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
+  //const [updatePersonId, setUpdatePersonId] = useState(null)
 
   useEffect(() =>{
     personsService.getAll()
@@ -17,9 +19,21 @@ function App(){
 
   const addPerson = (event) =>{
     event.preventDefault()
+    console.log('addPerson called')
     const newPerson = {name: newName, number: newNumber}
-    if(persons.find((person) => person.name.toLowerCase() === newName.toLowerCase()))
-      alert(`Person ${newName} already exists!`)
+    const personToUpdate = persons.find((person) => person.name.toLowerCase() === newName.toLowerCase())
+    console.log("personToUpdate: ", personToUpdate)
+    if(personToUpdate){
+      if(
+        window.confirm(`Person ${newName} already exists! Do you want to update their number?`)
+      ){
+        //setUpdatePersonId(personToUpdate.id)
+        personService.update(personToUpdate.id, newPerson)
+        .then(returnedPerson => {
+          setPersons(persons.map(p => p.id !== personToUpdate.id ? p : returnedPerson))
+        })
+      }
+    }
     else if(persons.find((person) => person.number === newNumber))
       alert(`Number ${newNumber} already exists!`)
     else{

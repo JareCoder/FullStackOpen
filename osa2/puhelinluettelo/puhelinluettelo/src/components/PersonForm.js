@@ -8,7 +8,7 @@ const PersonForm = ({ onSubmit, nameValue, nameOnChange, numberValue, numberOnCh
             number: <input value={numberValue} onChange={numberOnChange}/>
             </div>
             <div>
-            <button type="submit">add</button>
+            <button type="submit">Add</button>
             </div>
         </form>
     )
