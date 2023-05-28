@@ -32,11 +32,16 @@ function App(){
     setNewNumber('')
   }
 
-  const removePerson = (id) =>{
-    personsService.remove(id)
-    .then(() => {
-      setPersons(persons.filter(person => person.id !== id))
-    })
+  const removePerson = (person) =>{
+    if(
+      window.confirm(`Are you sure you want to delete ${person.name}?`)
+      )
+      {
+        personsService.remove(person.id)
+        .then(() => {
+          setPersons(persons.filter(removedPerson => removedPerson.id !== person.id))
+        })
+      }
   }
 
   const handleNameInput = (event) =>{
