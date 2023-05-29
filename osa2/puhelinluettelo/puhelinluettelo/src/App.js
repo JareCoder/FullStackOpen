@@ -4,13 +4,14 @@ import Filter from './components/FilterNames'
 import PersonForm from './components/PersonForm'
 import PersonsList from './components/PersonsList'
 import personService from './services/persons'
+import Popup from './components/Popup'
 
 function App(){
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
-  //const [updatePersonId, setUpdatePersonId] = useState(null)
+  const [message, setMessage] = useState(null)
 
   useEffect(() =>{
     personsService.getAll()
@@ -31,15 +32,21 @@ function App(){
         personService.update(personToUpdate.id, newPerson)
         .then(returnedPerson => {
           setPersons(persons.map(p => p.id !== personToUpdate.id ? p : returnedPerson))
+          setMessage(`Update ${newName} number to: ${newNumber}`)
+          setTimeout(() => {setMessage(null)}, 5000)
         })
       }
+
+      
     }
     else if(persons.find((person) => person.number === newNumber))
       alert(`Number ${newNumber} already exists!`)
     else{
       personsService.create(newPerson)
       .then(returnedPerson => {
+        setMessage(`Added user: ${newName}`)
         setPersons(persons.concat(returnedPerson))
+        setTimeout(() => {setMessage(null)}, 5000)
       })
     }
     setNewName('')
@@ -54,6 +61,8 @@ function App(){
         personsService.remove(person.id)
         .then(() => {
           setPersons(persons.filter(removedPerson => removedPerson.id !== person.id))
+          setMessage(`Removed user: ${person.name} `)
+          setTimeout(() => {setMessage(null)}, 5000)
         })
       }
   }
@@ -73,6 +82,7 @@ function App(){
   return (
     <div>
       <h2>Phonebook</h2>
+      <Popup message={message} />
       <Filter value={filter} onChange={handleFilterInput} />
       <h2>Add Person</h2>
       <PersonForm 
