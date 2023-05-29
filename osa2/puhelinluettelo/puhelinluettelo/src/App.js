@@ -5,6 +5,7 @@ import PersonForm from './components/PersonForm'
 import PersonsList from './components/PersonsList'
 import personService from './services/persons'
 import Popup from './components/Popup'
+import ErrorPopup from './components/ErrorPopup'
 
 function App(){
   const [persons, setPersons] = useState([])
@@ -12,6 +13,7 @@ function App(){
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
   const [message, setMessage] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() =>{
     personsService.getAll()
@@ -34,6 +36,12 @@ function App(){
           setPersons(persons.map(p => p.id !== personToUpdate.id ? p : returnedPerson))
           setMessage(`Update ${newName} number to: ${newNumber}`)
           setTimeout(() => {setMessage(null)}, 5000)
+        })
+        .catch(e => {
+          setErrorMessage(`User ${newName} has already been removed`)
+          setTimeout(() => {setErrorMessage(null)}, 5000)
+          personService.getAll()
+          .then(returnedPersons => setPersons(returnedPersons))
         })
       }
 
@@ -83,6 +91,7 @@ function App(){
     <div>
       <h2>Phonebook</h2>
       <Popup message={message} />
+      <ErrorPopup message={errorMessage} />
       <Filter value={filter} onChange={handleFilterInput} />
       <h2>Add Person</h2>
       <PersonForm 
