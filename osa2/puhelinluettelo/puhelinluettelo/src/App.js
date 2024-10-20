@@ -55,6 +55,9 @@ function App(){
         setMessage(`Added user: ${newName}`)
         setPersons(persons.concat(returnedPerson))
         setTimeout(() => {setMessage(null)}, 5000)
+      }).catch(e => {
+        setErrorMessage(`Failed to add user: ` + e.response.data.error)
+        setTimeout(() => {setErrorMessage(null)}, 5000)
       })
     }
     setNewName('')
